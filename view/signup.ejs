@@ -51,23 +51,7 @@
 						<input class="input100 email" type="text" name="email" placeholder="Email">
 						<span class="focus-input100" data-placeholder="&#xe87f;"></span>
 					</div>
-					<div class="wrap-input100" data-validate="Enter email">
-						<div class="input100">
-							<div class="form-check">
-								<label class="form-check-label">
-									<input type="radio" class="form-check-input" checked="checked" name="optradio"
-										value="user">User
-								</label>
-							</div>
-
-							<div class="form-check">
-								<label class="form-check-label">
-									<input type="radio" class="form-check-input" name="optradio" value="manager">Manager
-								</label>
-							</div>
-						</div>
-						<span class="focus-input100" data-placeholder="&#xe81f;"></span>
-					</div>
+					
 					<p class="text-danger text-success login-err"></p>
 					<div class="container-login100-form-btn m-t-32">
 						<button class="login100-form-btn " type="button" id="sigin-bnt">
@@ -102,8 +86,6 @@
 		var username = $(".username").val()
 		var password = $(".password").val()
 		var email = $(".email").val()
-		var role = $('input[name = "optradio"]:checked').val();
-		console.log(role);
 		$.ajax({
 			url: "/user/sign-up",
 			method: "post",
@@ -111,7 +93,6 @@
 				username: username,
 				password: password,
 				email: email,
-				role: role
 			}
 		}).then(data => {
 			if (data.error) {

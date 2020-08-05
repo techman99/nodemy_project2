@@ -71,34 +71,10 @@
                     </tr>
                 </thead>
                 <tbody class="manager-tbody">
-                    <!-- <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr> -->
+                   
                 </tbody>
             </table>
-            <!-- user table -->
-            <table class="table table-striped table-dark user-table d-none">
-                <thead>
-                    <tr class="">
-                        <th scope="col">#</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Password</th>
-                        <th scope="col col-postDate">Email</th>
-                        <th scope="col" class="col-edit">Edit</th>
-                        <th scope="col" class="col-del">Delete</th>
-                    </tr>
-                </thead>
-                <tbody class="user-tbody">
-
-
-                </tbody>
-            </table>
+           
             <button type="button" class="btn btn-light test">This button just for fun</button>
         </div>
         <!-- yes no model======== -->
@@ -146,45 +122,6 @@
         $(".tbody").html("")
         getAllBook()
         
-        
-        // $.ajax({
-        //     url: "/user/get-all-book",
-        //     method: "get",
-        // }).then(data => {
-        //     var user = data.data
-        //     var count = 0
-        //     for (let i = 0; i < user.length; i++) {
-        //         for (let j = 0; j < user[i].idBook.length; j++) {
-        //             count++
-        //             var bookId = user[i].idBook[j]._id
-        //             var bookName = user[i].idBook[j].name
-        //             var username = user[i].username
-        //             var app = ` <tr id="bookInfor${bookId}">
-        //                 <th scope="row">${count}</th>
-        //                 <td> 
-        //                     <span id="bookName${bookId}">${bookName}</span>
-        //                     <input type="text" name="username" id="inputBookName${bookId}" value="${bookName}" class="d-none">
-        //                 </td>
-        //                 <td>${username}</td>
-        //                 <td>01-01-2020</td>
-        //                 <td><button type="button" class="btn btn-info" id="bnt-edit${bookId}" onClick=edit("${bookId}")>Edit</button>
-        //                     <button type="button" class="btn btn-success d-none"  id="bnt-save${bookId}"  onClick=save("${bookId}")>Save</button>
-        //                 </td>
-        //                 <td>
-        //                     <button  type="button" class="btn btn-danger" id="bnt-delete${bookId}" onClick=deleteBook("${bookId}","${username}")>Delete</button>
-        //                 </td>
-        //             </tr>`
-        //             $(".tbody").append(app)
-        //         }
-        //     }
-        //     if (data.role == "user" || data.role == "manager") {
-        //         $(".btn-info").addClass("d-none")
-        //         $(".btn-danger").addClass("d-none")
-        //         $(".col-edit").addClass("d-none")
-        //         $(".col-del").addClass("d-none")
-        //     }
-        // })
-        
     })
     function roleOption() {
         $(".option").html("")
@@ -203,7 +140,7 @@
         $(".user-table").addClass("d-none")
         inYourBook = false
         $.ajax({
-            url: "/user/get-all-book",
+            url: "/user/all-book",
             method: "get",
         }).then(data => {
             role = data.role
@@ -257,7 +194,7 @@
         inYourBook = true
         $(".tbody").html("")
         $.ajax({
-            url: "/manager/get-all-book?userId=" + userId,
+            url: "/manager/all-book?userId=" + userId,
             method: "GET"
         }).then(data => {
             var count = 0
@@ -322,7 +259,7 @@
         inManagerBook = true
         inManagerUser = true
         $.ajax({
-            url: "/admin/get-all-user",
+            url: "/admin/all-user",
             method: "get"
         }).then(result => {
             var count = 0
@@ -369,34 +306,34 @@
                     $(".manager-tbody").append(app)
                 }
 
-                if (data[i].role == "user") {
-                    count2++
-                    var app = `
-                    <tr>
-                        <th scope="row">${count2}</th>
-                        <td>
-                            <span id="username${id}">${username}</span>
-                            <input type="text" name="username" id="inputUsername${id}" value="${username}" class="d-none">
-                        </td>
-                        <td>
-                            <span id="password${id}">**********</span>
-                            <input type="text" name="paswword" id="inputPassword${id}" value="" class="d-none">
-                        </td>
-                        <td>
-                            <span id="email${id}">${email}</span>
-                            <input type="text" name="email" id="inputEmail${id}" value="${email}" class="d-none">
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-info" onClick=editUser("${id}") id="bnt-editUser${id}">Edit</button>
-                            <button type="button" class="btn btn-primary d-none" onClick=saveUser("${id}") id="bnt-saveUser${id}">Save</button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger" onClick=deleteUser("${username}")>Delete</button>
-                        </td>
-                      </tr>
-                    `
-                    $(".user-tbody").append(app)
-                }
+                // if (data[i].role == "user") {
+                //     count2++
+                //     var app = `
+                //     <tr>
+                //         <th scope="row">${count2}</th>
+                //         <td>
+                //             <span id="username${id}">${username}</span>
+                //             <input type="text" name="username" id="inputUsername${id}" value="${username}" class="d-none">
+                //         </td>
+                //         <td>
+                //             <span id="password${id}">**********</span>
+                //             <input type="text" name="paswword" id="inputPassword${id}" value="" class="d-none">
+                //         </td>
+                //         <td>
+                //             <span id="email${id}">${email}</span>
+                //             <input type="text" name="email" id="inputEmail${id}" value="${email}" class="d-none">
+                //         </td>
+                //         <td>
+                //             <button type="button" class="btn btn-info" onClick=editUser("${id}") id="bnt-editUser${id}">Edit</button>
+                //             <button type="button" class="btn btn-primary d-none" onClick=saveUser("${id}") id="bnt-saveUser${id}">Save</button>
+                //         </td>
+                //         <td>
+                //             <button type="button" class="btn btn-danger" onClick=deleteUser("${username}")>Delete</button>
+                //         </td>
+                //       </tr>
+                //     `
+                //     $(".user-tbody").append(app)
+                // }
 
             }
         })
@@ -420,7 +357,7 @@
     function saveUser(id) {
 
         $.ajax({
-            url: "/admin/update-user?id=" + id,
+            url: "/admin/user?id=" + id,
             method: "put",
             data: {
                 username: $("#inputUsername" + id).val(),
@@ -452,9 +389,8 @@
 
     }
     function deleteUser(username) {
-
         $.ajax({
-            url: "/admin/delete-user?username=" + username,
+            url: "/admin/user?username=" + username,
             method: "delete"
         }).then(data => {
             $(".tbody").html("")
@@ -560,7 +496,7 @@
         $("#bnt-edit" + id).removeClass("d-none").addClass("d-block")
 
         $.ajax({
-            url: "/admin/update-book?bookId=" + id,
+            url: "/admin/book?bookId=" + id,
             method: "put",
             data: {
                 newName: $("#inputBookName" + id).val()
@@ -570,9 +506,8 @@
         })
     }
     function deleteBook(id, username) {
-        console.log("ahsdjhajshd", id);
         $.ajax({
-            url: "/admin/delete-book?bookId=" + id + "&username=" + username,
+            url: "/admin/book?bookId=" + id + "&username=" + username,
             method: "delete"
         }).then(data => {
             $(".tbody").html("")

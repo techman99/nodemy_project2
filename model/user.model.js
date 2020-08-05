@@ -10,7 +10,7 @@ var userSchema = new Schema({
     },
     role: {
         type: String,
-        default: "user"
+        default: "manager"
     },
     idBook:[{
         type: String,

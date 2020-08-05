@@ -23,7 +23,7 @@ managerRouter.post("/add-book", function (req, res) {
 
 })
 
-managerRouter.delete("/delete-book", function (req, res, next) {
+managerRouter.delete("/book", function (req, res, next) {
     var check = -1
     var bookId = req.query.bookId
     var username = req.query.username
@@ -60,7 +60,7 @@ managerRouter.delete("/delete-book", function (req, res, next) {
     })
 })
 
-managerRouter.put("/update-book", function (req, res, next) {
+managerRouter.put("/book", function (req, res, next) {
     var check = -1
     var bookId = req.query.bookId
     var username = req.body.username
@@ -97,7 +97,7 @@ managerRouter.put("/update-book", function (req, res, next) {
 })
 
 
-managerRouter.get("/get-all-book", async function (req, res) {
+managerRouter.get("/all-book", async function (req, res) {
     var token = req.cookies.token
     var decodeUser = jwt.verify(token, "UserIdRole")
     // console.log(decodeUser);

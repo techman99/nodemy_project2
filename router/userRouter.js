@@ -8,13 +8,12 @@ var hash = bcrypt.hashSync("B4c0/\/", salt);
 var jwt = require('jsonwebtoken');
 module.exports = userRouter
 
-userRouter.get("/get-all-book", async function (req, res, next) {
+userRouter.get("/all-book", async function (req, res, next) {
     try {
         var token = req.cookies.token
         var decodeUser = jwt.verify(token, "UserIdRole")
         // console.log(decodeUser);
         var user = await userService.getById(decodeUser._id)
-        console.log(user._id, "usereeeeeee");
         if (!user) {
             return res.json({
                 error: true,
@@ -65,9 +64,9 @@ userRouter.get("/get-all-book", async function (req, res, next) {
 }, function (req, res) {
     userService.getAllBook().then(function (data) {
         res.json({
-            role:res.user.role,
-            userId:res.user._id,
-            data:data
+            role: res.user.role,
+            userId: res.user._id,
+            data: data
         })
     })
 
@@ -90,11 +89,10 @@ userRouter.post("/sign-up", function (req, res, next) {
     var username = req.body.username
     var password = req.body.password
     var email = req.body.email
-    var role = req.body.role
     bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(password, salt, function (err, hash) {
             password = hash
-            userService.dangki(username, password, email, role).then(function (data) {
+            userService.dangki(username, password, email).then(function (data) {
                 return res.json({
                     error: false,
                     message: "Them Du lieu thanh cong",

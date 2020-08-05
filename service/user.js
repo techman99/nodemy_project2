@@ -47,7 +47,6 @@ function dangki(username, password, email, role) {
         email: email,
         username: username,
         password: password,
-        role: role
     })
 }
 function checkLogin(idUser, isLogin) {
