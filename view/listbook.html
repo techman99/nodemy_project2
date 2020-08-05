@@ -129,10 +129,11 @@
 <!--===============================================================================================-->
 <script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
 <script>
-    var inYourBook = false
-    var role
-    var inManagerBook = false, inManagerUser = false
-    var managerID
+    var inYourBook = false,
+        inManagerBook = false,
+        inManagerUser = false
+    var role,
+        managerID
 
     // $(".test").click(function(){})
     getAllBook()
@@ -363,7 +364,7 @@
 
                     $(".manager-tbody").append(app)
                 }
- 
+
                 if (data[i].role == "user") {
                     count2++
                     var app = `
@@ -567,7 +568,7 @@
     function deleteBook(id, username) {
         console.log("ahsdjhajshd", id);
         $.ajax({
-            url: "/admin/book?bookId=" + id + "&username=" + username,
+            url: "/admin/delete-book?bookId=" + id + "&username=" + username,
             method: "delete"
         }).then(data => {
             $(".tbody").html("")

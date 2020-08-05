@@ -59,7 +59,7 @@ adminRouter.put("/update-book"
         })
     })
 
-adminRouter.delete("/book", function (req, res) {
+adminRouter.delete("/delete-book", function (req, res) {
     var username = req.query.username
     var bookId = req.query.bookId
     bookService.removeBook(bookId).then(result => {
