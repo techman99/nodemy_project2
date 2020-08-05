@@ -73,7 +73,7 @@ userRouter.get("/get-all-book", async function (req, res, next) {
 
 })
 
-userRouter.post("/sigin", function (req, res, next) {
+userRouter.post("/sign-up", function (req, res, next) {
     var username = req.body.username;
     userService.checkExsitUsername(username).then((result) => {
         if (!result) {

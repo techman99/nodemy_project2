@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Sigin</title>
+	<title>Sign up</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
@@ -105,7 +105,7 @@
 		var role = $('input[name = "optradio"]:checked').val();
 		console.log(role);
 		$.ajax({
-			url: "/user/sigin",
+			url: "/user/sign-up",
 			method: "post",
 			data: {
 				username: username,

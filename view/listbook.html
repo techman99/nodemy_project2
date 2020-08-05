@@ -144,43 +144,45 @@
         $(".user-table").addClass("d-none")
         inYourBook = false
         $(".tbody").html("")
-        $.ajax({
-            url: "/user/get-all-book",
-            method: "get",
-        }).then(data => {
-            var user = data.data
-            var count = 0
-            for (let i = 0; i < user.length; i++) {
-                for (let j = 0; j < user[i].idBook.length; j++) {
-                    count++
-                    var bookId = user[i].idBook[j]._id
-                    var bookName = user[i].idBook[j].name
-                    var username = user[i].username
-                    var app = ` <tr id="bookInfor${bookId}">
-                        <th scope="row">${count}</th>
-                        <td> 
-                            <span id="bookName${bookId}">${bookName}</span>
-                            <input type="text" name="username" id="inputBookName${bookId}" value="${bookName}" class="d-none">
-                        </td>
-                        <td>${username}</td>
-                        <td>01-01-2020</td>
-                        <td><button type="button" class="btn btn-info" id="bnt-edit${bookId}" onClick=edit("${bookId}")>Edit</button>
-                            <button type="button" class="btn btn-success d-none"  id="bnt-save${bookId}"  onClick=save("${bookId}")>Save</button>
-                        </td>
-                        <td>
-                            <button  type="button" class="btn btn-danger" id="bnt-delete${bookId}" onClick=deleteBook("${bookId}","${username}")>Delete</button>
-                        </td>
-                    </tr>`
-                    $(".tbody").append(app)
-                }
-            }
-            if (data.role == "user" || data.role == "manager") {
-                $(".btn-info").addClass("d-none")
-                $(".btn-danger").addClass("d-none")
-                $(".col-edit").addClass("d-none")
-                $(".col-del").addClass("d-none")
-            }
-        })
+        getAllBook()
+        // $.ajax({
+        //     url: "/user/get-all-book",
+        //     method: "get",
+        // }).then(data => {
+        //     var user = data.data
+        //     var count = 0
+        //     for (let i = 0; i < user.length; i++) {
+        //         for (let j = 0; j < user[i].idBook.length; j++) {
+        //             count++
+        //             var bookId = user[i].idBook[j]._id
+        //             var bookName = user[i].idBook[j].name
+        //             var username = user[i].username
+        //             var app = ` <tr id="bookInfor${bookId}">
+        //                 <th scope="row">${count}</th>
+        //                 <td> 
+        //                     <span id="bookName${bookId}">${bookName}</span>
+        //                     <input type="text" name="username" id="inputBookName${bookId}" value="${bookName}" class="d-none">
+        //                 </td>
+        //                 <td>${username}</td>
+        //                 <td>01-01-2020</td>
+        //                 <td><button type="button" class="btn btn-info" id="bnt-edit${bookId}" onClick=edit("${bookId}")>Edit</button>
+        //                     <button type="button" class="btn btn-success d-none"  id="bnt-save${bookId}"  onClick=save("${bookId}")>Save</button>
+        //                 </td>
+        //                 <td>
+        //                     <button  type="button" class="btn btn-danger" id="bnt-delete${bookId}" onClick=deleteBook("${bookId}","${username}")>Delete</button>
+        //                 </td>
+        //             </tr>`
+        //             $(".tbody").append(app)
+        //         }
+        //     }
+        //     if (data.role == "user" || data.role == "manager") {
+        //         $(".btn-info").addClass("d-none")
+        //         $(".btn-danger").addClass("d-none")
+        //         $(".col-edit").addClass("d-none")
+        //         $(".col-del").addClass("d-none")
+        //     }
+        // })
+        
     })
     function roleOption() {
         $(".option").html("")

@@ -40,8 +40,8 @@ app.get("/", function (req, res) {
 app.get("/login", function (req, res) {
   res.render("login")
 })
-app.get("/sigin", function (req, res) {
-  res.render("sigin")
+app.get("/sign-up", function (req, res) {
+  res.render("signup")
 })
 app.get("/listbook", function (req, res) {
   res.sendFile(path.join(__dirname, "./view/listbook.html"))
