@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>ListBook</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <!--===============================================================================================-->
+</head>
+
+<body>
+    <div class="limiter">
+        <div class="container-login100 p-t-30 p-b-50" style="background-image: url('/images/bg-07.jpg');">
+            <span class="login100-form-title p-b-41 d">
+                List books
+                <div class="d-block option">
+
+                </div>
+                <button type="button" class="btn btn-light allBook" style="margin-top: 5px;">AllBook</button>
+                <button type="button" class="btn btn-light bnt-logout" style="margin-top: 5px;">Logout</button>
+            </span>
+            <!-- all table -->
+            <table class="table table-striped table-dark default-table">
+                <thead>
+                    <tr class="">
+                        <th scope="col">#</th>
+                        <th scope="col">Book Name</th>
+                        <th scope="col">Author</th>
+                        <th scope="col col-postDate">Post Date</th>
+                        <th scope="col" class="col-edit">Edit</th>
+                        <th scope="col" class="col-del">Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+
+
+                </tbody>
+            </table>
+            <!-- manager table -->
+            <table class="table table-striped table-dark manager-table d-none ">
+                <thead>
+                    <tr class="">
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Password</th>
+                        <th scope="col col-postDate">Email</th>
+                        <th scope="col" class="col-edit">Books</th>
+                        <th scope="col" class="col-edit">Edit</th>
+                        <th scope="col" class="col-del">Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="manager-tbody">
+                    <!-- <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr> -->
+                </tbody>
+            </table>
+            <!-- user table -->
+            <table class="table table-striped table-dark user-table d-none">
+                <thead>
+                    <tr class="">
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Password</th>
+                        <th scope="col col-postDate">Email</th>
+                        <th scope="col" class="col-edit">Edit</th>
+                        <th scope="col" class="col-del">Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="user-tbody">
+
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-light test">This button just for fun</button>
+        </div>
+        <!-- yes no model======== -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        aloo
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="dropDownSelect1"></div>
+
+</body>
+<!--===============================================================================================-->
+<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script>
+    var inYourBook = false
+    var role
+    var inManagerBook = false, inManagerUser = false
+    var managerID
+
+    // $(".test").click(function(){})
+    getAllBook()
+    $(".allBook").click(function () {
+        $(".tbody").html("")
+        $(".default-table").removeClass("d-none")
+        $(".manager-table").addClass("d-none")
+        $(".user-table").addClass("d-none")
+        inYourBook = false
+        $(".tbody").html("")
+        $.ajax({
+            url: "/user/get-all-book",
+            method: "get",
+        }).then(data => {
+            var user = data.data
+            var count = 0
+            for (let i = 0; i < user.length; i++) {
+                for (let j = 0; j < user[i].idBook.length; j++) {
+                    count++
+                    var bookId = user[i].idBook[j]._id
+                    var bookName = user[i].idBook[j].name
+                    var username = user[i].username
+                    var app = ` <tr id="bookInfor${bookId}">
+                        <th scope="row">${count}</th>
+                        <td> 
+                            <span id="bookName${bookId}">${bookName}</span>
+                            <input type="text" name="username" id="inputBookName${bookId}" value="${bookName}" class="d-none">
+                        </td>
+                        <td>${username}</td>
+                        <td>01-01-2020</td>
+                        <td><button type="button" class="btn btn-info" id="bnt-edit${bookId}" onClick=edit("${bookId}")>Edit</button>
+                            <button type="button" class="btn btn-success d-none"  id="bnt-save${bookId}"  onClick=save("${bookId}")>Save</button>
+                        </td>
+                        <td>
+                            <button  type="button" class="btn btn-danger" id="bnt-delete${bookId}" onClick=deleteBook("${bookId}","${username}")>Delete</button>
+                        </td>
+                    </tr>`
+                    $(".tbody").append(app)
+                }
+            }
+            if (data.role == "user" || data.role == "manager") {
+                $(".btn-info").addClass("d-none")
+                $(".btn-danger").addClass("d-none")
+                $(".col-edit").addClass("d-none")
+                $(".col-del").addClass("d-none")
+            }
+        })
+    })
+    function roleOption() {
+        $(".option").html("")
+        if (role == "admin") {
+            $(".option").append(` <button type="button" class="btn btn-light" onClick=yourBook("${userId}")>Your Books</button>
+                     <button type="button" class="btn btn-light mamager" onClick=userManage()>Users Manage</button>`)
+        }
+        if (role == "manager") {
+            $(".option").append(`<button type="button" class="btn btn-light" onClick=yourBook("${userId}")>Your Books</button>`)
+        }
+    }
+    function getAllBook() {
+        $(".tbody").html("")
+        $(".default-table").removeClass("d-none")
+        $(".manager-table").addClass("d-none")
+        $(".user-table").addClass("d-none")
+        inYourBook = false
+        $.ajax({
+            url: "/user/get-all-book",
+            method: "get",
+        }).then(data => {
+            role = data.role
+            userId = data.userId
+            // console.log(data.role);
+            // console.log(data.userId);
+            // userId = data.userId
+            // console.log(userId);
+
+            roleOption()
+            var user = data.data
+            var count = 0
+            for (let i = 0; i < user.length; i++) {
+                for (let j = 0; j < user[i].idBook.length; j++) {
+                    count++
+                    var bookId = user[i].idBook[j]._id
+                    var bookName = user[i].idBook[j].name
+                    var username = user[i].username
+                    var app = ` <tr id="bookInfor${bookId}">
+                        <th scope="row">${count}</th>
+                        <td> 
+                            <span id="bookName${bookId}">${bookName}</span>
+                            <input type="text" name="username" id="inputBookName${bookId}" value="${bookName}" class="d-none">
+                        </td>
+                        <td>${username}</td>
+                        <td>01-01-2020</td>
+                        <td><button type="button" class="btn btn-info" id="bnt-edit${bookId}" onClick=edit("${bookId}")>Edit</button>
+                            <button type="button" class="btn btn-success d-none"  id="bnt-save${bookId}"  onClick=save("${bookId}")>Save</button>
+                        </td>
+                        <td><button type="button" class="btn btn-danger" id="bnt-delete${bookId}" onClick=deleteBook("${bookId}","${username}")>Delete</button>
+                        </td>
+                    </tr>`
+                    $(".tbody").append(app)
+                }
+            }
+            if (data.role == "user" || data.role == "manager") {
+                $(".btn-info").addClass("d-none")
+                $(".btn-danger").addClass("d-none")
+                $(".col-edit").addClass("d-none")
+                $(".col-del").addClass("d-none")
+            }
+        })
+    }
+
+
+    function yourBook(userId) {
+        $(".tbody").html("")
+        $(".default-table").removeClass("d-none")
+        $(".manager-table").addClass("d-none")
+        $(".user-table").addClass("d-none")
+        inYourBook = true
+        $(".tbody").html("")
+        $.ajax({
+            url: "/manager/get-all-book?userId=" + userId,
+            method: "GET"
+        }).then(data => {
+            var count = 0
+            var user = data.data;
+            var username = data.data.username
+            for (let i = 0; i < user.idBook.length; i++) {
+                count++
+                var bookId = user.idBook[i]._id
+                var bookName = user.idBook[i].name
+                var app = ` <tr id="bookInfor${bookId}">
+                        <th scope="row">${count}</th>
+                        <td> 
+                            <span id="bookName${bookId}">${bookName}</span>
+                            <input type="text" name="username" id="inputBookName${bookId}" value="${bookName}" class="d-none">
+                        </td>
+                        <td>${username}</td>
+                        <td>01-01-2020</td>
+                        <td>
+                            <button type="button" class="btn btn-info" id="bnt-edit${bookId}" onClick=edit("${bookId}")>Edit</button>
+                            <button type="button" class="btn btn-success d-none"  id="bnt-save${bookId}"  onClick=save("${bookId}")>Save</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" id="bnt-delete${bookId}" onClick=deleteBook("${bookId}","${username}")>Delete</button>
+                        </td>
+                    </tr>`
+                $(".tbody").append(app)
+            }
+            $(".tbody").append(`<tr>
+                    <th scope="row"></th>
+                    <td>
+                        <span id="newBookName" class="d-none"></span>
+                        <input type="text" name="username" id="input-newBook" value="" class="d-none" style="width: 100px ;">
+                    </td>
+                    <td></td>
+                    <td>
+                        <button type="button" class="btn btn-light btn-newBook" onClick=newBook() >Add new book</button>
+                        <button type="button" class="btn btn-success d-none btn-addBook" onClick=updateNewBook("${username}")>Upadate</button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>`)
+
+        })
+    }
+
+    function newBook() {
+        console.log("asdjaksjd");
+        $("#newBookName").removeClass("d-none").addClass("d-block")
+        $("#input-newBook").removeClass("d-none").addClass("d-block")
+        $(".btn-newBook").removeClass("d-block").addClass("d-none")
+        $(".btn-addBook").removeClass("d-none").addClass("d-block")
+    }
+
+    function userManage() {
+        $(".tbody").html("")
+        $(".manager-tbody").html("")
+        $(".user-tbody").html("")
+        $(".default-table").removeClass("d-block").addClass("d-none")
+        $(".manager-table").removeClass("d-none")
+        $(".user-table").removeClass("d-none")
+        inYourBook = false
+        inManagerBook = true
+        inManagerUser = true
+        $.ajax({
+            url: "/admin/get-all-user",
+            method: "get"
+        }).then(result => {
+            var count = 0
+            var count2 = 0
+            var data = result.data
+            console.log(data);
+            var username
+            for (let i = 0; i < data.length; i++) {
+                var username = data[i].username
+                var password = data[i].password
+                var email = data[i].email
+                var Book = data[i].idBook.length
+                var id = data[i]._id
+                if (data[i].role == "manager") {
+                    count++
+                    var app = `
+                 <tr>
+                        <th scope="row">${count}</th>
+                        <td>
+                            <span id="username${id}">${username}</span>
+                            <input type="text" name="username" id="inputUsername${id}" value="${username}" class="d-none">
+                        </td>
+                        <td>
+                            <span id="password${id}">**********</span>
+                            <input type="text" name="paswword" id="inputPassword${id}" value="" class="d-none">
+                        </td>
+                        <td>
+                            <span id="email${id}">${email}</span>
+                            <input type="text" name="email" id="inputEmail${id}" value="${email}" class="d-none">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success" onClick=managerGetBook("${id}")>${Book + " Books"}</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-info" onClick=editUser("${id}") id="bnt-editUser${id}">Edit</button>
+                            <button type="button" class="btn btn-primary d-none" onClick=saveUser("${id}") id="bnt-saveUser${id}">Save</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" onClick=deleteUser("${username}")>Delete</button>
+                        </td>
+                      </tr>
+                 `
+
+                    $(".manager-tbody").append(app)
+                }
+ 
+                if (data[i].role == "user") {
+                    count2++
+                    var app = `
+                    <tr>
+                        <th scope="row">${count2}</th>
+                        <td>
+                            <span id="username${id}">${username}</span>
+                            <input type="text" name="username" id="inputUsername${id}" value="${username}" class="d-none">
+                        </td>
+                        <td>
+                            <span id="password${id}">**********</span>
+                            <input type="text" name="paswword" id="inputPassword${id}" value="" class="d-none">
+                        </td>
+                        <td>
+                            <span id="email${id}">${email}</span>
+                            <input type="text" name="email" id="inputEmail${id}" value="${email}" class="d-none">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-info" onClick=editUser("${id}") id="bnt-editUser${id}">Edit</button>
+                            <button type="button" class="btn btn-primary d-none" onClick=saveUser("${id}") id="bnt-saveUser${id}">Save</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" onClick=deleteUser("${username}")>Delete</button>
+                        </td>
+                      </tr>
+                    `
+                    $(".user-tbody").append(app)
+                }
+
+            }
+        })
+    }
+
+    function editUser(id) {
+        // console.log("sdajsjdj");
+        $("#inputUsername" + id).removeClass("d-none").addClass("d-block")
+        $("#inputPassword" + id).removeClass("d-none").addClass("d-block")
+        $("#inputEmail" + id).removeClass("d-none").addClass("d-block")
+        $("#inputEmail" + id).removeClass("d-none").addClass("d-block")
+
+        $("#username" + id).removeClass("d-block").addClass("d-none")
+        $("#password" + id).removeClass("d-block").addClass("d-none")
+        $("#email" + id).removeClass("d-block").addClass("d-none")
+
+        $("#bnt-editUser" + id).removeClass("d-block").addClass("d-none")
+        $("#bnt-saveUser" + id).removeClass("d-none").addClass("d-block")
+
+    }
+    function saveUser(id) {
+
+        $.ajax({
+            url: "/admin/update-user?id=" + id,
+            method: "put",
+            data: {
+                username: $("#inputUsername" + id).val(),
+                password: $("#inputPassword" + id).val(),
+                email: $("#inputEmail" + id).val(),
+            }
+        }).then(data => {
+            $(".tbody").html("")
+            $(".option").html("")
+            if (inManagerUser == true) {
+                roleOption()
+                userManage()
+            } else {
+                getAllBook()
+            }
+
+            $("#inputUsername" + id).removeClass("d-block").addClass("d-none")
+            $("#inputPassword" + id).removeClass("d-block").addClass("d-none")
+            $("#inputEmail" + id).removeClass("d-block").addClass("d-none")
+            $("#inputEmail" + id).removeClass("d-block").addClass("d-none")
+
+            $("#username" + id).removeClass("d-none").addClass("d-block").html($("#inputUsername" + id).val())
+            $("#password" + id).removeClass("d-none").addClass("d-block").html("**********")
+            $("#email" + id).removeClass("d-none").addClass("d-block").html($("#inputEmail" + id).val())
+
+            $("#bnt-editUser" + id).removeClass("d-none").addClass("d-block")
+            $("#bnt-saveUser" + id).removeClass("d-block").addClass("d-none")
+        })
+
+    }
+    function deleteUser(username) {
+
+        $.ajax({
+            url: "/admin/delete-user?username=" + username,
+            method: "delete"
+        }).then(data => {
+            $(".tbody").html("")
+            $(".option").html("")
+            if (inManagerUser == true) {
+                roleOption()
+                userManage()
+            } else {
+                getAllBook()
+            }
+        })
+    }
+    function managerGetBook(id) {
+        $(".tbody").html("")
+        $(".default-table").removeClass("d-none")
+        $(".manager-table").addClass("d-none")
+        $(".user-table").addClass("d-none")
+        managerID = id
+        inYourBook = false
+        inManagerBook = true
+        $(".tbody").html("")
+        $.ajax({
+            url: "/manager/book?userId=" + id,
+            method: "GET"
+        }).then(data => {
+            console.log(data);
+            var count = 0
+            var user = data.data;
+            var username = user.username
+            for (let i = 0; i < user.idBook.length; i++) {
+                count++
+                var bookId = user.idBook[i]._id
+                var bookName = user.idBook[i].name
+                var app = ` <tr id="bookInfor${bookId}">
+                        <th scope="row">${count}</th>
+                        <td> 
+                            <span id="bookName${bookId}">${bookName}</span>
+                            <input type="text" name="username" id="inputBookName${bookId}" value="${bookName}" class="d-none">
+                        </td>
+                        <td>${username}</td>
+                        <td>01-01-2020</td>
+                        <td>
+                            <button type="button" class="btn btn-info" id="bnt-edit${bookId}" onClick=edit("${bookId}")>Edit</button>
+                            <button type="button" class="btn btn-success d-none"  id="bnt-save${bookId}"  onClick=save("${bookId}")>Save</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" id="bnt-delete${bookId}" onClick=deleteBook("${bookId}","${username}")>Delete</button>
+                        </td>
+                    </tr>`
+                $(".tbody").append(app)
+            }
+            $(".tbody").append(`<tr>
+                    <th scope="row"></th>
+                    <td>
+                        <span id="newBookName" class="d-none"></span>
+                        <input type="text" name="username" id="input-newBook" value="" class="d-none" style="width: 100px ;">
+                    </td>
+                    <td></td>
+                    <td>
+                        <button type="button" class="btn btn-light btn-newBook" onClick=newBook() >Add new book</button>
+                        <button type="button" class="btn btn-success d-none btn-addBook" onClick=updateNewBook("${username}")>Upadate</button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>`)
+        })
+    }
+    function updateNewBook(username) {
+        console.log("managerID" + managerID);
+        $("#newBookName").html($("#input-newBook").val())
+        $.ajax({
+            url: "/manager/add-book?username=" + username,
+            method: "post",
+            data: {
+                namebook: $("#input-newBook").val()
+            }
+        }).then(data => {
+            console.log(data.message);
+            if (inYourBook == true) {
+                roleOption()
+                yourBook(userId)
+            } else if (inManagerBook == true) {
+                roleOption()
+                managerGetBook(managerID)
+            } else {
+                getAllBook()
+            }
+        })
+
+    }
+
+    function edit(id) {
+        $("#inputBookName" + id).removeClass("d-none").addClass("d-block")
+        $("#bookName" + id).removeClass("d-block").addClass("d-none")
+        $("#bnt-edit" + id).removeClass("d-block").addClass("d-none")
+        $("#bnt-save" + id).removeClass("d-none").addClass("d-block")
+    }
+
+    function save(id) {
+        $("#bookName" + id).removeClass("d-none").addClass("d-block").html($("#inputBookName" + id).val())
+        $("#inputBookName" + id).removeClass("d-block").addClass("d-none")
+        $("#bnt-save" + id).removeClass("d-block").addClass("d-none")
+        $("#bnt-edit" + id).removeClass("d-none").addClass("d-block")
+
+        $.ajax({
+            url: "/admin/update-book?bookId=" + id,
+            method: "put",
+            data: {
+                newName: $("#inputBookName" + id).val()
+            }
+        }).then(data => {
+            console.log(data.message);
+        })
+    }
+    function deleteBook(id, username) {
+        console.log("ahsdjhajshd", id);
+        $.ajax({
+            url: "/admin/book?bookId=" + id + "&username=" + username,
+            method: "delete"
+        }).then(data => {
+            $(".tbody").html("")
+            $(".option").html("")
+            if (inYourBook == true) {
+                roleOption()
+                yourBook(userId)
+            } else {
+                getAllBook()
+            }
+            // $("#bookInfor" + id).addClass("d-none")
+            console.log(data.message);
+        })
+
+    }
+    $(".bnt-logout").click(function () {
+        setCookie("token", "", -1)
+        window.location.href = "/login"
+    })
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+</script>
+<!--===============================================================================================-->
+<script src="/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/bootstrap/js/popper.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/daterangepicker/moment.min.js"></script>
+<script src="/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="/js/main.js"></script>
+
+</html>
