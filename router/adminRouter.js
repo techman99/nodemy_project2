@@ -21,32 +21,32 @@ adminRouter.post("/add-book", function (req, res) {
 })
 
 adminRouter.put("/update-book"
-    // , function (req, res, next) {
-    //     var check = -1
-    //     var bookId = req.query.bookId
-    //     userService.checkExistBook().then(function (result) {
-    //         for (let i = 0; i < result.idBook.length; i++) {
-    //             // console.log(result.idBook[i]);
-    //             if (bookId == result.idBook[i]) {
-    //                 check = i
-    //                 break
-    //             }
-    //         }
-    //         console.log("check: " + check);
-    //         if (check == -1) {
-    //             res.json({
-    //                 error: true,
-    //                 message: "Sach nay khong phai cua ban",
-    //                 data: result
-    //             })
-    //         } else {
-    //             res.book = result.idBook[check]
-    //             // console.log("res.book: "+res.book);
-    //             next()
-    //         }
+    , function (req, res, next) {
+        var check = -1
+        var bookId = req.query.bookId
+        userService.checkExistBook().then(function (result) {
+            for (let i = 0; i < result.idBook.length; i++) {
+                // console.log(result.idBook[i]);
+                if (bookId == result.idBook[i]) {
+                    check = i
+                    break
+                }
+            }
+            console.log("check: " + check);
+            if (check == -1) {
+                res.json({
+                    error: true,
+                    message: "Sach nay khong phai cua ban",
+                    data: result
+                })
+            } else {
+                res.book = result.idBook[check]
+                // console.log("res.book: "+res.book);
+                next()
+            }
 
-    //     })
-    // }
+        })
+    }
     , function (req, res) {
         var bookId = req.query.bookId
         var newName = req.body.newName
